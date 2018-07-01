@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>React Event Benchmark</title>
+
+    <!--
+      It's extremely hard to get benchmark.js running with webpack so I decided
+      to simply inline it. 🙈
+      @see https://github.com/bestiejs/benchmark.js/issues/128
+    -->
+    <script src="%PUBLIC_URL%/vendor/lodash.js"></script>
+    <script src="%PUBLIC_URL%/vendor/benchmark.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <button id="start">Start Benchmark</button>
+    <div id="log"></div>
+  </body>
+</html>
