@@ -1,38 +1,25 @@
 # React Event Benchmark
 
-This simple benchmark will profile the impact of synthetic events in
-React.
+This simple benchmark will profile the impact of synthetic events in React.
 
-To do this, I created a custom build of `react-dom` with the whole event
-system removed. All other features are similar to `react-dom`.
+To do this, I created a custom build of `react-dom` with the whole event system removed. All other features are similar to `react-dom`.
 
-In the benchmarks, I call it `react-slim-dom` (it's ~30% less code than
-`react-dom`).
+In the benchmarks, I call it `react-slim-dom` (it's ~30% less code than `react-dom`).
 
 ## Test Setup
 
-To test the impact of the event system, we're mounting 100 levels of
-`<div />` element, each with an `onClick` and `onClickCapture` handler.
+To test the impact of the event system, we're mounting 100 levels of `<div />` element, each with an `onClick` and `onClickCapture` handler.
 
-Then, we trigger `dispatchEvent()` on the deepest element so that all
-event listeners fire.
+Then, we trigger `dispatchEvent()` on the deepest element so that all event listeners fire.
 
-In the native event test, we use `componentDidMount` to add native event
-listeners and `componentWillUnmount` to remove them.
+In the native event test, we use `componentDidMount` to add native event listeners and `componentWillUnmount` to remove them.
 
-## Caveats
-
-The benchmark currently ignores state updates. This will need to be changed in
-order to have a good comparison. React's synthetic event system can batch state
-updates within the same event and thus receive additional performance 
-improvements since the tree only needs to be re-rendered after all events are
-processed. This improvement is not possible when relying on native event 
-dispatching.
-
-## Results
+## Results without setState
 
 The following numbers where created on a MacBook Pro (15-inch, 2016),
 2,7 GHz Intel Core i7, 16 GB 2133 MHz LPDDR3, on macOS 10.13.5 (17F77).
+
+These benchmarks currently ignore state updates. React's synthetic event system can batch state updates within the same event and thus receive additional performance improvements since the tree only needs to be re-rendered after all events are processed. This improvement is not possible when relying on native event dispatching.
 
 ### Chrome 67.0.3396.99
 
@@ -58,13 +45,29 @@ SyntheticEventTest x 789 ops/sec ±1.30% (322 runs sampled)
 Fastest is NativeEventTest
 ```
 
+## Results with setState
+
+The following numbers where created on a MacBook Pro (15-inch, 2016),
+2,7 GHz Intel Core i7, 16 GB 2133 MHz LPDDR3, on macOS 10.13.5 (17F77).
+
+In these benchmark, all event handlers will call `setState` and force the whole tree
+including all children to update.
+
+We expect worse numbers for the unbatched native event implementation.
+
+### Chrome 67.0.3396.99
+
+```
+NativeEventTest x 15.67 ops/sec ±1.18% (156 runs sampled)
+SyntheticEventTest x 396 ops/sec ±1.12% (305 runs sampled)
+Fastest is SyntheticEventTest
+```
+
 ## Conclusion
 
-We see that the results are  not significantly different with a small
-favor of native event handling.
+We see that the results are not significantly different with a small favor of native event handling when we do not call setState within the event handlers.
 
-This tests lets us to believe that there might not be major performance
-regressions if we were to remove React's synthetic event system.
+However when state changes are taken into account (as they probably should), the `setState` batching of the synthetic event system can drastically improve performance as it can reduce the number of re-renders to only one.
 
 ## License
 

@@ -5,18 +5,22 @@ import React from "react";
 // react-dom above.
 import ReactSlimDOM from "react-slim-dom";
 
-import { getDeepestFirstChild, noop } from "../utils";
+import { getDeepestFirstChild } from "../utils";
 
 class NativeEventTest extends React.Component {
+  state = { counter: 0 };
+  increment = () => this.setState(s => ({ counter: s.counter + 1 }));
+
   ref = React.createRef();
   componentDidMount() {
-    this.ref.current.addEventListener("click", noop);
-    this.ref.current.addEventListener("click", noop, true);
+    this.ref.current.addEventListener("click", this.increment);
+    this.ref.current.addEventListener("click", this.increment, true);
   }
   componentWillUnmount() {
-    this.ref.current.removeEventListener("click", noop);
-    this.ref.current.removeEventListener("click", noop, true);
+    this.ref.current.removeEventListener("click", this.increment);
+    this.ref.current.removeEventListener("click", this.increment, true);
   }
+
   render() {
     const { depth } = this.props;
     const recurse = depth > 1 ? <NativeEventTest depth={depth - 1} /> : null;

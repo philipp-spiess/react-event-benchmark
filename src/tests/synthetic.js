@@ -4,7 +4,7 @@ import React from "react";
 // the production build.
 import ReactDOM from "react-dom/cjs/react-dom.production.min.js";
 
-import { getDeepestFirstChild, noop } from "../utils";
+import { getDeepestFirstChild } from "../utils";
 
 class SyntheticEventTest extends React.Component {
   // Since the other test also requires a ref and attaches cDM and cWU
@@ -17,12 +17,19 @@ class SyntheticEventTest extends React.Component {
   componentDidMount() {}
   componentWillUnmount() {}
 
+  state = { counter: 0 };
+  increment = () => this.setState(s => ({ counter: s.counter + 1 }));
+
   render() {
     const { depth } = this.props;
     const recurse = depth > 1 ? <SyntheticEventTest depth={depth - 1} /> : null;
 
     return (
-      <div onClick={noop} onClickCapture={noop} ref={this.ref}>
+      <div
+        onClick={this.increment}
+        onClickCapture={this.increment}
+        ref={this.ref}
+      >
         {recurse}
       </div>
     );

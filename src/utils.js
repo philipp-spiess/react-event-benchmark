@@ -4,5 +4,3 @@ export function getDeepestFirstChild(node) {
   }
   return node;
 }
-
-export function noop() {}
