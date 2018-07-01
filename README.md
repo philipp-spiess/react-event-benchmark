@@ -20,6 +20,15 @@ event listeners fire.
 In the native event test, we use `componentDidMount` to add native event
 listeners and `componentWillUnmount` to remove them.
 
+## Caveats
+
+The benchmark currently ignores state updates. This will need to be changed in
+order to have a good comparison. React's synthetic event system can batch state
+updates within the same event and thus receive additional performance 
+improvements since the tree only needs to be re-rendered after all events are
+processed. This improvement is not possible when relying on native event 
+dispatching.
+
 ## Results
 
 The following numbers where created on a MacBook Pro (15-inch, 2016),
