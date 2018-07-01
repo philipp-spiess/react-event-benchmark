@@ -1,7 +1,7 @@
 import "./index.css";
 
-import syntheticEventTest from "./tests/synthetic";
 import nativeEventTest from "./tests/native";
+import syntheticEventTest from "./tests/synthetic";
 
 const elementDepth = 100;
 // Improve the standard derivation by increasing the number of samples
@@ -16,8 +16,8 @@ startElement.addEventListener("click", () => {
   startElement.disabled = true;
   const suite = new window.Benchmark.Suite();
   suite
-    .add("SyntheticEventTest", syntheticEventTest(root, elementDepth))
     .add("NativeEventTest", nativeEventTest(root, elementDepth))
+    .add("SyntheticEventTest", syntheticEventTest(root, elementDepth))
     .on("start", ({ target: { name } }) => log("Benchmark Started"))
     .on("cycle", ({ target }) => log(String(target)))
     .on("complete", () => {

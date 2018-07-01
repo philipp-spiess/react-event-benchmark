@@ -28,16 +28,24 @@ The following numbers where created on a MacBook Pro (15-inch, 2016),
 ### Chrome 67.0.3396.99
 
 ```
-SyntheticEventTest x 641 ops/sec ±1.60% (317 runs sampled)
-NativeEventTest x 677 ops/sec ±1.58% (311 runs sampled)
+NativeEventTest x 686 ops/sec ±1.67% (307 runs sampled)
+SyntheticEventTest x 596 ops/sec ±1.66% (294 runs sampled)
 Fastest is NativeEventTest
 ```
 
 ### Firefox 61.0 (64-bit)
 
 ```
-SyntheticEventTest x 313 ops/sec ±22.35% (231 runs sampled)
-NativeEventTest x 351 ops/sec ±22.26% (237 runs sampled)
+NativeEventTest x 390 ops/sec ±17.61% (259 runs sampled)
+SyntheticEventTest x 348 ops/sec ±17.69% (256 runs sampled)
+Fastest is NativeEventTest
+```
+
+### Safari Technology Preview 59 (Safari 12.0, WebKit 13606.1.21)
+
+```
+NativeEventTest x 876 ops/sec ±1.15% (287 runs sampled)
+SyntheticEventTest x 789 ops/sec ±1.30% (322 runs sampled)
 Fastest is NativeEventTest
 ```
 
