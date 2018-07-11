@@ -4,7 +4,7 @@ This simple benchmark will profile the impact of synthetic events in React.
 
 To do this, I created a custom build of `react-dom` with the whole event system removed. All other features are similar to `react-dom`.
 
-In the benchmarks, I call it `react-slim-dom` (it's ~30% less code than `react-dom`).
+In the benchmarks, I call it `react-slim-dom` (it's ~20% less code than `react-dom`).
 
 ## Test Setup
 
