@@ -1,14 +1,13 @@
+import "babel-polyfill";
 import "./index.css";
 
-import nativeEventTest from "./tests/native";
-import syntheticEventTest from "./tests/synthetic";
+import pooledEventTest from "./tests/pooled";
+import unpooledEventTest from "./tests/unpooled";
 
-const elementDepth = 100;
 // Improve the standard derivation by increasing the number of samples
 // run.
 Object.assign(window.Benchmark.options, { maxTime: 30 });
 
-const rootElement = document.getElementById("root");
 const startElement = document.getElementById("start");
 const logElement = document.getElementById("log");
 
@@ -16,14 +15,15 @@ startElement.addEventListener("click", () => {
   startElement.disabled = true;
   const suite = new window.Benchmark.Suite();
   suite
-    .add("NativeEventTest", nativeEventTest(root, elementDepth))
-    .add("SyntheticEventTest", syntheticEventTest(root, elementDepth))
+    .add("Without Event Pooling", unpooledEventTest(root))
+    .add("With Event Pooling", pooledEventTest(root))
     .on("start", ({ target: { name } }) => log("Benchmark Started"))
     .on("cycle", ({ target }) => log(String(target)))
     .on("complete", () => {
       log("Fastest is " + suite.filter("fastest").map("name"));
       startElement.disabled = false;
     })
+    .on("error", console.error)
     .run({ async: true });
 });
 
